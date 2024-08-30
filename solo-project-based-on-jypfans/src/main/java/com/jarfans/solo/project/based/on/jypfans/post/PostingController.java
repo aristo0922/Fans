@@ -30,8 +30,8 @@ public class PostingController {
   }
 
   @PatchMapping("/{id}")
-  public void update(){
-    postService.update();
+  public void update(@NonNull @RequestBody Post postInfo){
+    postService.update(postInfo);
   }
 
   @DeleteMapping("/{id}")

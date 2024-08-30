@@ -13,10 +13,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class Post {
   private long id;
-  private int like;
+  private long teamId;
+  private long fanId;
   private String subject;
   private String content;
-  private long commentId;
+  private int like;
 
 
 }

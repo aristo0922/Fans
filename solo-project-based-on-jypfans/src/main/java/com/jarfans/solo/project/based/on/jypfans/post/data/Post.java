@@ -32,7 +32,12 @@ public class Post {
   @Column(length = 500)
   private String content;
 
-  public void setId(long id){
-    this.id = id;
+//  public void setId(long id){
+//    this.id = id;
+//  }
+
+  public void update(String subject, String content){
+    this.subject = subject;
+    this.content = content;
   }
 }

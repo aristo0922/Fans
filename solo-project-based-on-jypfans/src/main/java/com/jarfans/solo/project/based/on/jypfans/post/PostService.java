@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Service
 public class PostService {
   private final PostRepository postRepository;
@@ -16,19 +18,33 @@ public class PostService {
     this.postRepository = repository;
   }
 
-  public void upload(Post post){
+  public void save(Post post){
     postRepository.save(post);
     long id = post.getId();
     Optional<Post> result = postRepository.findById(id);
-    if(result == null) throw new IllegalStateException("생성되지 않았습니다.");
+    if(!result.isPresent()) throw new IllegalStateException("생성되지 않았습니다.");
   }
 
-  public List<Post> findAllPosts(){
+  public Post upload(Post post){
+    postRepository.save(post);
+    long id = post.getId();
+    Optional<Post> result = postRepository.findById(id);
+    if(!result.isPresent()) throw new IllegalStateException("생성되지 않았습니다.");
+    Post updated = result.get();
+    updated.update(post.getSubject(), post.getContent());
+    return updated;
+  }
+
+  public List<Post> getPosts(){
     return postRepository.findAll();
   }
 
-  public Optional<Post> findPostById(long id){
+  public Optional<Post> getPostEntity(long id){
     return postRepository.findById(id);
+  }
+
+  public void delete(long id){
+    postRepository.deleteById(id);
   }
 }
 

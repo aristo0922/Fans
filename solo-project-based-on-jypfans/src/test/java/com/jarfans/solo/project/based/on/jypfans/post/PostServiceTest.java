@@ -2,11 +2,9 @@ package com.jarfans.solo.project.based.on.jypfans.post;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.jarfans.solo.project.based.on.jypfans.post.data.ManagePostRepository;
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +17,6 @@ class PostServiceTest {
 
   @BeforeEach
   public void beforeEach(){
-    postRepository = new ManagePostRepository();
     postService = new PostService(postRepository);
     post = Post.builder()
         .subject("XH")
@@ -30,11 +27,6 @@ class PostServiceTest {
         .subject("XH")
         .content("hello XH")
         .build();
-  }
-
-  @AfterEach
-  public void afterEach(){
-    postRepository.clearStore();
   }
 
   @Test

@@ -55,13 +55,13 @@ class PostServiceTest {
   @Test
   public void 단일_게시글_조회(){
     long id = 2L;
-    Optional<Post> post = postService.getPostEntity(id);
-    Assertions.assertThat(post.isPresent());
+    Post post = postService.getPostEntity(id);
+    Assertions.assertThat(post.getId()).isEqualTo(id);
   }
 
   @Test
   public void 게시글_수정(){
-    postService.upload(post);
+    postService.update(post);
     long id = post.getId();
 
     Post updated = Post.builder()
@@ -69,7 +69,7 @@ class PostServiceTest {
         .subject("XH Consert")
         .content("is this weekend").build();
 
-    postService.upload(updated);
+    postService.update(updated);
     Post saved = postRepository.findById(id).get();
     Assertions.assertThat(saved.getSubject()).isEqualTo("XH Consert");
   }

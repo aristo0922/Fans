@@ -3,6 +3,7 @@ package com.jarfans.solo.project.based.on.jypfans.post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class PostService {
     if(!result.isPresent()) throw new IllegalStateException("생성되지 않았습니다.");
   }
 
-  public Post upload(Post post){
+  public Post update(Post post){
     postRepository.save(post);
     long id = post.getId();
     Optional<Post> result = postRepository.findById(id);
@@ -39,8 +40,12 @@ public class PostService {
     return postRepository.findAll();
   }
 
-  public Optional<Post> getPostEntity(long id){
-    return postRepository.findById(id);
+  public Post getPostEntity(long id){
+    Optional<Post> result = postRepository.findById(id);
+    if(result.isEmpty()){
+      throw new NoSuchElementException("해당 id 를 가진 객체가 존재하지 않습니다.");
+    }
+    return result.get();
   }
 
   public void delete(long id){

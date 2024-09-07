@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PostService {
   private final PostRepository postRepository;
-
-  @Autowired
+  
   public PostService(PostRepository repository){
     this.postRepository = repository;
   }

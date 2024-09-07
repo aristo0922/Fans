@@ -21,7 +21,7 @@ class PostServiceTest {
 
   @Autowired
   PostService postService;
-  Post post, postNone;
+  Post post, invalidPost;
 
   @BeforeEach
   public void beforeEach(){
@@ -32,7 +32,7 @@ class PostServiceTest {
         .teamId(1)
         .fanId(1)
         .build();
-    postNone = Post.builder()
+    invalidPost = Post.builder()
         .id(-1)
         .subject("XH")
         .content("hello XH")
@@ -81,5 +81,20 @@ class PostServiceTest {
     assertTrue(postRepository.findById(id).isPresent());
     postService.delete(id);
     assertTrue(postRepository.findById(id).isEmpty());
+  }
+
+  /*
+  1. 존재하지 않는 사용자일 때
+  2. 관련 아티스트를 팔로하지 않았을 때
+  3. (수정 시) 게시물 작성자와 수정하려는 사람이 일치하지 않을 때
+   */
+  @Test(expected = IllegalStateException.class.class)
+  public void 포스팅_작성자가_없습니다(){
+    // given
+    long id = -1L;
+    // when
+    Exception e = assertThrows(IllegalStateException.class, () -> postService.getPostEntity(id));
+    assertEquals("사용자 계정이 유효하지 않습니다.", e.getMessage());
+    // then IllegalStateException
   }
 }

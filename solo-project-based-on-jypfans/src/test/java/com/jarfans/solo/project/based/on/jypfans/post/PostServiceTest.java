@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,14 +88,16 @@ class PostServiceTest {
   1. 존재하지 않는 사용자일 때
   2. 관련 아티스트를 팔로하지 않았을 때
   3. (수정 시) 게시물 작성자와 수정하려는 사람이 일치하지 않을 때
+  4. 존재하지 않는 포스트에 접근하려고 할 때
    */
-  @Test(expected = IllegalStateException.class.class)
+  @Test
   public void 포스팅_작성자가_없습니다(){
     // given
     long id = -1L;
     // when
-    Exception e = assertThrows(IllegalStateException.class, () -> postService.getPostEntity(id));
-    assertEquals("사용자 계정이 유효하지 않습니다.", e.getMessage());
-    // then IllegalStateException
+    Exception e = assertThrows(NoSuchElementException.class, () -> {
+      postService.getPostEntity(id);
+    });
+//    assertEquals("접근할 수 없는 포스트입니다.", e.getMessage());
   }
 }

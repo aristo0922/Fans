@@ -36,8 +36,6 @@ class PostServiceTest {
         .fanId(1)
         .build();
 
-//    savePostDTO = new SavePostDTO("정수는", "라이브 하는 중입니다. instead!", 1, 1);
-//    invalidPostDTO = new SavePostDTO("", "", 1, 1);
     savePostDTO = SavePostDTO.builder()
         .subject("Xdinary heroes, close beta test.")
         .content("is completed! instead! is published")
@@ -80,7 +78,6 @@ class PostServiceTest {
 
   @Test
   public void 게시글_수정() {
-    Post result = postService.update(savePostDTO);
     long id = 2L;
 
     SavePostDTO updated = SavePostDTO.builder()
@@ -112,12 +109,9 @@ class PostServiceTest {
    */
   @Test
   public void 포스팅_작성자가_없습니다() {
-    // given
     long id = -1L;
-    // when
     Exception e = assertThrows(NoSuchElementException.class, () -> {
       postService.getPostEntity(id);
     });
-//    assertEquals("접근할 수 없는 포스트입니다.", e.getMessage());
   }
 }

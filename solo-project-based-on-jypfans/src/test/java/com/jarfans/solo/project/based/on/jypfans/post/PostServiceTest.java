@@ -7,7 +7,6 @@ import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
 import com.jarfans.solo.project.based.on.jypfans.post.data.SavePostDTO;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @SpringBootTest
 class PostServiceTest {
+
   @Autowired
   PostRepository postRepository;
 
@@ -27,7 +27,7 @@ class PostServiceTest {
   SavePostDTO savePostDTO, invalidPostDTO;
 
   @BeforeEach
-  public void beforeEach(){
+  public void beforeEach() {
     postService = new PostService(postRepository);
     post = Post.builder()
         .subject("XH")
@@ -36,8 +36,19 @@ class PostServiceTest {
         .fanId(1)
         .build();
 
-    savePostDTO = new SavePostDTO("정수는", "라이브 하는 중입니다. instead!", 1, 1);
-    invalidPostDTO = new SavePostDTO("", "", 1, 1);
+//    savePostDTO = new SavePostDTO("정수는", "라이브 하는 중입니다. instead!", 1, 1);
+//    invalidPostDTO = new SavePostDTO("", "", 1, 1);
+    savePostDTO = SavePostDTO.builder()
+        .subject("Xdinary heroes, close beta test.")
+        .content("is completed! instead! is published")
+        .fanId(1)
+        .teamId(1).build();
+
+    invalidPostDTO = SavePostDTO.builder()
+        .subject("")
+        .content("is completed! instead! is published")
+        .fanId(1)
+        .teamId(1).build();
 
     invalidPost = Post.builder()
         .id(-1)
@@ -47,64 +58,47 @@ class PostServiceTest {
   }
 
   @Test
-  public void 게시글_등록(){
-    postService.save(savePostDTO);
-    Post result = postRepository.findById(3L).get();
+  public void 게시글_등록() {
+    Post result = postService.save(savePostDTO);
+    long id = result.getId();
+    assertTrue(postRepository.findById(id).isPresent());
     Assertions.assertThat(savePostDTO.getSubject()).isEqualTo(result.getSubject());
   }
-  @Test
-//  public void 게시글_등록(){
-//    postService.save(post);
-//    Post result = postRepository.findById(post.getId()).get();
-//    Assertions.assertThat(post.getSubject()).isEqualTo(result.getSubject());
-//  }
 
   @Test
-  public void 전체_게시글_조회(){
+  public void 전체_게시글_조회() {
     List<Post> posts = postService.getPosts();
     Assertions.assertThat(posts.size()).isGreaterThan(0);
   }
 
   @Test
-  public void 단일_게시글_조회(){
+  public void 단일_게시글_조회() {
     long id = 2L;
     Post post = postService.getPostEntity(id);
     Assertions.assertThat(post.getId()).isEqualTo(id);
   }
 
   @Test
-  public void 게시글_수정(){
-    postService.update(post);
-    long id = post.getId();
+  public void 게시글_수정() {
+    Post result = postService.update(savePostDTO);
+    long id = 2L;
 
-    Post updated = Post.builder()
+    SavePostDTO updated = SavePostDTO.builder()
         .id(id)
         .subject("XH Consert")
-        .content("is this weekend").build();
+        .content("is this weekend")
+        .fanId(1)
+        .teamId(1)
+        .build();
 
     postService.update(updated);
     Post saved = postRepository.findById(id).get();
     Assertions.assertThat(saved.getSubject()).isEqualTo(updated.getSubject());
   }
-//  @Test
-//  public void 게시글_수정(){
-//    postService.update(post);
-//    long id = post.getId();
-//
-//    Post updated = Post.builder()
-//        .id(id)
-//        .subject("XH Consert")
-//        .content("is this weekend").build();
-//
-//    postService.update(updated);
-//    Post saved = postRepository.findById(id).get();
-//    Assertions.assertThat(saved.getSubject()).isEqualTo("XH Consert");
-//  }
 
   @Test
-  public void 게시글_삭제(){
-    postService.save(post);
-    long id = post.getId();
+  public void 게시글_삭제() {
+    long id = 2L;
     assertTrue(postRepository.findById(id).isPresent());
     postService.delete(id);
     assertTrue(postRepository.findById(id).isEmpty());
@@ -117,7 +111,7 @@ class PostServiceTest {
   4. 존재하지 않는 포스트에 접근하려고 할 때
    */
   @Test
-  public void 포스팅_작성자가_없습니다(){
+  public void 포스팅_작성자가_없습니다() {
     // given
     long id = -1L;
     // when

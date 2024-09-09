@@ -2,10 +2,10 @@ package com.jarfans.solo.project.based.on.jypfans.post;
 
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
+import com.jarfans.solo.project.based.on.jypfans.post.data.SavePostDTO;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,21 +18,25 @@ public class PostService {
     this.postRepository = repository;
   }
 
-  public void save(Post post){
-    postRepository.save(post);
-    long id = post.getId();
-    Optional<Post> result = postRepository.findById(id);
-    if(!result.isPresent()) throw new IllegalStateException("생성되지 않았습니다.");
+  public Post save(SavePostDTO request){
+    Post post = Post.builder()
+        .subject(request.getSubject())
+        .content(request.getContent())
+        .fanId(request.getFanId())
+        .teamId(request.getTeamId())
+        .build();
+    return postRepository.save(post);
   }
 
-  public Post update(Post post){
-    postRepository.save(post);
-    long id = post.getId();
-    Optional<Post> result = postRepository.findById(id);
-    if(!result.isPresent()) throw new IllegalStateException("생성되지 않았습니다.");
-    Post updated = result.get();
-    updated.update(post.getSubject(), post.getContent());
-    return updated;
+  public Post update(SavePostDTO updated){
+    Post post = new Post().builder()
+        .id(updated.getId())
+        .subject(updated.getSubject())
+        .content(updated.getContent())
+        .teamId(updated.getTeamId())
+        .fanId(updated.getFanId())
+        .build();
+    return postRepository.save(post);
   }
 
   public List<Post> getPosts(){

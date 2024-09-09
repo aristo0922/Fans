@@ -1,6 +1,7 @@
 package com.jarfans.solo.project.based.on.jypfans.post;
 
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
+import com.jarfans.solo.project.based.on.jypfans.post.data.SavePostDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +23,12 @@ public class PostController {
   }
 
   @PostMapping("/")
-  public void uploadPost(@RequestBody Post post){
+  public void uploadPost(@RequestBody SavePostDTO post){
     postService.save(post);
   }
 
   @PatchMapping("/")
-  public void updatePost(@RequestBody Post post){
+  public void updatePost(@RequestBody SavePostDTO post){
     postService.update(post);
   }
 

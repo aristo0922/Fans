@@ -6,9 +6,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
+@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class SavePostDTO {
+  private long id;
   private String subject;
   private String content;
   private long fanId;

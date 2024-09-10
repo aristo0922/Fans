@@ -1,5 +1,6 @@
 package com.jarfans.solo.project.based.on.jypfans.post.data;
 
+import com.jarfans.solo.project.based.on.jypfans.util.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Table(name = "post")
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class Post  extends BaseTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false, unique = true)
@@ -34,20 +35,6 @@ public class Post {
   private String subject;
   @Column(length = 500, nullable = false)
   private String content;
-
-  @Column(name = "created_at")
-  private LocalDate createdAt;
-
-  @Column(name = "updated_at")
-  @LastModifiedDate
-  private LocalDate updatedAt;
-
-  @Column(name = "deleted_at")
-  private LocalDate deletedAt;
-
-//  public void setId(long id){
-//    this.id = id;
-//  }
 
   public void update(String subject, String content){
     this.subject = subject;

@@ -15,13 +15,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
 
-@Entity
 @Builder
 @Getter
-@Table(name = "post")
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Post  extends BaseTimeEntity {
+@Table(name = "post")
+@Entity
+public class Post extends BaseTimeEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false, unique = true)
@@ -36,7 +37,7 @@ public class Post  extends BaseTimeEntity {
   @Column(length = 500, nullable = false)
   private String content;
 
-  public void update(String subject, String content){
+  public void update(String subject, String content) {
     this.subject = subject;
     this.content = content;
   }

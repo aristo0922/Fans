@@ -29,13 +29,8 @@ public class PostService {
   }
 
   public Post update(SavePostDTO updated){
-    Post post = new Post().builder()
-        .id(updated.getId())
-        .subject(updated.getSubject())
-        .content(updated.getContent())
-        .teamId(updated.getTeamId())
-        .fanId(updated.getFanId())
-        .build();
+    Post post = postRepository.findById(updated.getId()).get();
+    post.update(updated.getSubject(), updated.getContent());
     return postRepository.save(post);
   }
 

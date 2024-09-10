@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
 import com.jarfans.solo.project.based.on.jypfans.post.data.SavePostDTO;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.assertj.core.api.Assertions;
@@ -91,6 +92,19 @@ class PostServiceTest {
     postService.update(updated);
     Post saved = postRepository.findById(id).get();
     Assertions.assertThat(saved.getSubject()).isEqualTo(updated.getSubject());
+  }
+
+
+  @Test
+  public void 포스트_객체_생성_날짜를_저장한다(){
+    LocalDateTime now = LocalDateTime.of(2024,9,10,0,0,0);
+
+    Post result = postService.save(savePostDTO);
+    long id = result.getId();
+
+    result = postRepository.findById(id).get();
+    Assertions.assertThat(result.getCreatedAt()).isAfter(now);
+    Assertions.assertThat(result.getUpdatedAt()).isAfter(now);
   }
 
   @Test

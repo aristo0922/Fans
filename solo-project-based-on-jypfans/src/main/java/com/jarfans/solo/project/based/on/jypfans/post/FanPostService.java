@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
-public class PostService {
+public class FanPostService {
   private final PostRepository postRepository;
   
-  public PostService(PostRepository repository){
+  public FanPostService(PostRepository repository){
     this.postRepository = repository;
   }
 

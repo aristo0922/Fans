@@ -17,19 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @SpringBootTest
-class PostServiceTest {
+class FanPostServiceTest {
 
   @Autowired
   PostRepository postRepository;
 
   @Autowired
-  PostService postService;
+  FanPostService fanPostService;
   Post post, invalidPost;
   SavePostDTO savePostDTO, invalidPostDTO;
 
   @BeforeEach
   public void beforeEach() {
-    postService = new PostService(postRepository);
+    fanPostService = new FanPostService(postRepository);
     post = Post.builder()
         .subject("XH")
         .content("hello XH")
@@ -58,7 +58,7 @@ class PostServiceTest {
 
   @Test
   public void 게시글_등록() {
-    Post result = postService.save(savePostDTO);
+    Post result = fanPostService.save(savePostDTO);
     long id = result.getId();
     assertTrue(postRepository.findById(id).isPresent());
     Assertions.assertThat(savePostDTO.getSubject()).isEqualTo(result.getSubject());
@@ -66,14 +66,14 @@ class PostServiceTest {
 
   @Test
   public void 전체_게시글_조회() {
-    List<Post> posts = postService.getPosts();
+    List<Post> posts = fanPostService.getPosts();
     Assertions.assertThat(posts.size()).isGreaterThan(0);
   }
 
   @Test
   public void 단일_게시글_조회() {
     long id = 2L;
-    Post post = postService.getPostEntity(id);
+    Post post = fanPostService.getPostEntity(id);
     Assertions.assertThat(post.getId()).isEqualTo(id);
   }
 
@@ -89,7 +89,7 @@ class PostServiceTest {
         .teamId(1)
         .build();
 
-    postService.update(updated);
+    fanPostService.update(updated);
     Post saved = postRepository.findById(id).get();
     Assertions.assertThat(saved.getSubject()).isEqualTo(updated.getSubject());
   }
@@ -99,7 +99,7 @@ class PostServiceTest {
   public void 포스트_객체_생성_날짜를_저장한다(){
     LocalDateTime now = LocalDateTime.of(2024,9,10,0,0,0);
 
-    Post result = postService.save(savePostDTO);
+    Post result = fanPostService.save(savePostDTO);
     long id = result.getId();
 
     result = postRepository.findById(id).get();
@@ -112,7 +112,7 @@ class PostServiceTest {
   public void 게시글_삭제() {
     long id = 2L;
     assertTrue(postRepository.findById(id).isPresent());
-    postService.delete(id);
+    fanPostService.delete(id);
     assertTrue(postRepository.findById(id).isEmpty());
   }
 
@@ -126,7 +126,7 @@ class PostServiceTest {
   public void 포스팅_작성자가_없습니다() {
     long id = -1L;
     Exception e = assertThrows(NoSuchElementException.class, () -> {
-      postService.getPostEntity(id);
+      fanPostService.getPostEntity(id);
     });
   }
 }

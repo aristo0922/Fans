@@ -13,6 +13,6 @@ public class SavePostDTO {
   private long id;
   private String subject;
   private String content;
-  private long fanId;
+  private long writer;
   private long teamId;
 }

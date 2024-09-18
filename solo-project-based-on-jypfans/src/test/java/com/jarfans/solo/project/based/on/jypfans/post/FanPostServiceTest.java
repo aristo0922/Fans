@@ -40,13 +40,13 @@ class FanPostServiceTest {
     savePostDTO = SavePostDTO.builder()
         .subject("Xdinary heroes, close beta test.")
         .content("is completed! instead! is published")
-        .fanId(1)
+        .writer(1)
         .teamId(1).build();
 
     invalidPostDTO = SavePostDTO.builder()
         .subject("")
         .content("is completed! instead! is published")
-        .fanId(1)
+        .writer(1)
         .teamId(1).build();
 
     invalidPost = Post.builder()
@@ -58,7 +58,8 @@ class FanPostServiceTest {
 
   @Test
   public void 게시글_등록() {
-    Post result = fanPostService.save(savePostDTO);
+    fanPostService.save(savePostDTO);
+    Post result = postRepository.findBySubject(savePostDTO.getSubject());
     long id = result.getId();
     assertTrue(postRepository.findById(id).isPresent());
     Assertions.assertThat(savePostDTO.getSubject()).isEqualTo(result.getSubject());
@@ -85,7 +86,7 @@ class FanPostServiceTest {
         .id(id)
         .subject("XH Consert")
         .content("is this weekend")
-        .fanId(1)
+        .writer(1)
         .teamId(1)
         .build();
 
@@ -99,7 +100,9 @@ class FanPostServiceTest {
   public void 포스트_객체_생성_날짜를_저장한다(){
     LocalDateTime now = LocalDateTime.of(2024,9,10,0,0,0);
 
-    Post result = fanPostService.save(savePostDTO);
+
+    fanPostService.save(savePostDTO);
+    Post result = postRepository.findBySubject(savePostDTO.getSubject());
     long id = result.getId();
 
     result = postRepository.findById(id).get();

@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS subscribe;
+DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS user_type;
@@ -59,6 +60,23 @@ create table post
 
   foreign key(category_id) references category(id),
   foreign key(team_id) references team(id),
+  foreign key(writer_id) references user(id)
+);
+
+create table comment
+(
+  id int(50) not null auto_increment primary key,
+  writer_id int(50) not null,
+  post_id int(50) not null,
+  parent_comment int(50),
+
+  content varchar(255) not null,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP not null,
+  updated_at TIMESTAMP,
+  is_deleted boolean  DEFAULT 0,
+
+  foreign key(post_id) references post(id),
   foreign key(writer_id) references user(id)
 );
 

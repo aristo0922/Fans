@@ -80,6 +80,9 @@ create table comment
   foreign key(writer_id) references user(id)
 );
 
+alter table comment add constraint parent_comment
+foreign key(parent_comment) references comment(id) on delete cascade;
+
 
 create table subscribe
 (

@@ -23,6 +23,9 @@ public class ArtistTeam {
   @Column(name = "id", nullable = false, unique = true)
   private long id;
 
+  @Column(name = "name", nullable = false, length = 10)
   private String name;
+
+  @Column(name = "debut")
   private LocalDateTime debut;
 }

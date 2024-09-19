@@ -22,10 +22,10 @@ public class FanPostService implements PostService {
 
   public void save(SavePostDTO request) {
     Post post = Post.builder()
-        .title(request.getSubject())
+        .title(request.getTitle())
         .content(request.getContent())
         .writerId(request.getWriter())
-        .teamId(request.getTeamId())
+        .artistId(request.getArtistId())
         .build();
     postRepository.save(post);
   }
@@ -37,7 +37,7 @@ public class FanPostService implements PostService {
 
   public Post update(SavePostDTO updated) {
     Post post = postRepository.findById(updated.getId()).get();
-    post.update(updated.getSubject(), updated.getContent());
+    post.update(updated.getTitle(), updated.getContent());
     return postRepository.save(post);
   }
 

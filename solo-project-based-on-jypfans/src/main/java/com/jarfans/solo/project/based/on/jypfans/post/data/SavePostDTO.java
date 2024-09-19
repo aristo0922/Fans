@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class SavePostDTO {
   private long id;
-  private String subject;
+  private String title;
   private String content;
   private long writer;
-  private long teamId;
+  private long artistId;
 }

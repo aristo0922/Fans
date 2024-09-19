@@ -1,6 +1,7 @@
 package com.jarfans.solo.project.based.on.jypfans.user.data;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "userType")
 public class UserType {
   @Id
@@ -19,6 +21,7 @@ public class UserType {
   @Column(name = "id", nullable = false, unique = true)
   private long id;
 
+  @Column(name = "type", length = 10)
   private String type;
 
 }

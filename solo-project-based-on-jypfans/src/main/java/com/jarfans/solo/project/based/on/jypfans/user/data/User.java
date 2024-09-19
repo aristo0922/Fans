@@ -3,9 +3,12 @@ package com.jarfans.solo.project.based.on.jypfans.user.data;
 import com.jarfans.solo.project.based.on.jypfans.util.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -25,14 +28,27 @@ public class User extends BaseTimeEntity {
   @Column(name= " id", nullable = false, unique = true)
   private long id;
 
+  @Column(name = "user_id", nullable = false, length = 15)
   private String userId;
 
-  private long team;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "team_id")
+  private ArtistTeam team;
 
+  @Column(name = "password", nullable = false, length = 20)
   private String password;
+
+  @Column(name = "name", nullable = false, length = 10)
   private String name;
+
+  @Column(name = "nickName", nullable = false, length = 10)
   private String nickName;
-  private long type;
+
+  @ManyToOne
+  @JoinColumn(name = "type_id", nullable = false)
+  private UserType type;
+
+  @Column(name = "birth_day")
   private LocalDateTime birthDay;
 
 

@@ -38,16 +38,16 @@ class FanPostServiceTest {
         .build();
 
     savePostDTO = SavePostDTO.builder()
-        .subject("Xdinary heroes, close beta test.")
+        .title("[v6.4] Xdinary heroes, close beta test.")
         .content("is completed! instead! is published")
         .writer(1)
-        .teamId(1).build();
+        .artistId(1).build();
 
     invalidPostDTO = SavePostDTO.builder()
-        .subject("")
+        .title("")
         .content("is completed! instead! is published")
         .writer(1)
-        .teamId(1).build();
+        .artistId(1).build();
 
     invalidPost = Post.builder()
         .id(-1)
@@ -59,10 +59,10 @@ class FanPostServiceTest {
   @Test
   public void 게시글_등록() {
     fanPostService.save(savePostDTO);
-    Post result = postRepository.findBySubject(savePostDTO.getSubject());
+    Post result = postRepository.findByTitle(savePostDTO.getTitle());
     long id = result.getId();
     assertTrue(postRepository.findById(id).isPresent());
-    Assertions.assertThat(savePostDTO.getSubject()).isEqualTo(result.getTitle());
+    Assertions.assertThat(savePostDTO.getTitle()).isEqualTo(result.getTitle());
   }
 
   @Test
@@ -73,26 +73,26 @@ class FanPostServiceTest {
 
   @Test
   public void 단일_게시글_조회() {
-    long id = 2L;
+    long id = 23L;
     Post post = fanPostService.getPostEntity(id);
     Assertions.assertThat(post.getId()).isEqualTo(id);
   }
 
   @Test
   public void 게시글_수정() {
-    long id = 2L;
+    long id = 38L;
 
     SavePostDTO updated = SavePostDTO.builder()
         .id(id)
-        .subject("XH Consert")
+        .title("[v6.3] XH Consert")
         .content("is this weekend")
         .writer(1)
-        .teamId(1)
+        .artistId(1)
         .build();
 
     fanPostService.update(updated);
-    Post saved = postRepository.findById(id).get();
-    Assertions.assertThat(saved.getTitle()).isEqualTo(updated.getSubject());
+    Post saved = postRepository.findByTitle(updated.getTitle());
+    Assertions.assertThat(saved.getTitle()).isEqualTo(updated.getTitle());
   }
 
 
@@ -100,9 +100,8 @@ class FanPostServiceTest {
   public void 포스트_객체_생성_날짜를_저장한다(){
     LocalDateTime now = LocalDateTime.of(2024,9,10,0,0,0);
 
-
     fanPostService.save(savePostDTO);
-    Post result = postRepository.findBySubject(savePostDTO.getSubject());
+    Post result = postRepository.findByTitle(savePostDTO.getTitle());
     long id = result.getId();
 
     result = postRepository.findById(id).get();
@@ -113,7 +112,7 @@ class FanPostServiceTest {
 
   @Test
   public void 게시글_삭제() {
-    long id = 2L;
+    long id = 37L;
     assertTrue(postRepository.findById(id).isPresent());
     fanPostService.delete(id);
     assertTrue(postRepository.findById(id).isEmpty());

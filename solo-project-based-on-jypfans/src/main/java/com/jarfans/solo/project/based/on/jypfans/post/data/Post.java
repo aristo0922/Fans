@@ -41,8 +41,8 @@ public class Post extends BaseTimeEntity {
   @Column(name = "artist_id", nullable = false)
   private long artistId;
 
-  public void update(String subject, String content) {
-    this.title = subject;
+  public void update(String title, String content) {
+    this.title = title;
     this.content = content;
   }
 }

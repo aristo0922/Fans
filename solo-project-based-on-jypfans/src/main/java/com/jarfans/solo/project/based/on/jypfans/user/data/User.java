@@ -28,20 +28,20 @@ public class User extends BaseTimeEntity {
   @Column(name= " id", nullable = false, unique = true)
   private long id;
 
-  @Column(name = "user_id", nullable = false, length = 15)
+  @Column(name = "user_id", nullable = false, length = 30)
   private String userId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "team_id")
-  private ArtistTeam team;
+  private Team team;
 
-  @Column(name = "password", nullable = false, length = 20)
+  @Column(name = "password", nullable = false, length = 30)
   private String password;
 
-  @Column(name = "name", nullable = false, length = 10)
+  @Column(name = "name", nullable = false, length = 30)
   private String name;
 
-  @Column(name = "nickName", nullable = false, length = 10)
+  @Column(name = "nick_name", nullable = false, length = 30)
   private String nickName;
 
   @ManyToOne

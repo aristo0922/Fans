@@ -1,4 +1,4 @@
-package com.jarfans.solo.project.based.on.jypfans.user.data;
+package com.jarfans.solo.project.based.on.jypfans.post.data;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,18 +10,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
-@RequiredArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
+@Table(name = "category")
+@Getter
 @Entity
-@Table(name = "user_type")
-public class UserType {
+public class Category {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", nullable = false, unique = true)
   private long id;
 
-  @Column(name = "type", length = 10, unique = true)
-  private String type;
-
+  @Column(name = "category")
+  private String category;
 }

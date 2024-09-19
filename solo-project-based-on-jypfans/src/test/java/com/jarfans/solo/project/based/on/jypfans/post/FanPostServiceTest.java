@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
 import com.jarfans.solo.project.based.on.jypfans.post.data.SavePostDTO;
+import com.jarfans.solo.project.based.on.jypfans.user.data.Team;
+import com.jarfans.solo.project.based.on.jypfans.user.data.TeamRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,17 +25,22 @@ class FanPostServiceTest {
   PostRepository postRepository;
 
   @Autowired
+  TeamRepository teamRepository;
+
+  @Autowired
   FanPostService fanPostService;
   Post post, invalidPost;
   SavePostDTO savePostDTO, invalidPostDTO;
 
   @BeforeEach
   public void beforeEach() {
-    fanPostService = new FanPostService(postRepository);
+    fanPostService = new FanPostService(postRepository, teamRepository);
+    Team team = teamRepository.findById(1L).get();
+
     post = Post.builder()
         .title("XH")
         .content("hello XH")
-        .artistId(1)
+        .team(team)
         .writerId(1)
         .build();
 
@@ -73,14 +80,14 @@ class FanPostServiceTest {
 
   @Test
   public void 단일_게시글_조회() {
-    long id = 23L;
+    long id = 2L;
     Post post = fanPostService.getPostEntity(id);
     Assertions.assertThat(post.getId()).isEqualTo(id);
   }
 
   @Test
   public void 게시글_수정() {
-    long id = 38L;
+    long id = 2L;
 
     SavePostDTO updated = SavePostDTO.builder()
         .id(id)
@@ -112,7 +119,7 @@ class FanPostServiceTest {
 
   @Test
   public void 게시글_삭제() {
-    long id = 37L;
+    long id = 1L;
     assertTrue(postRepository.findById(id).isPresent());
     fanPostService.delete(id);
     assertTrue(postRepository.findById(id).isEmpty());

@@ -1,11 +1,13 @@
 package com.jarfans.solo.project.based.on.jypfans.post.data;
 
+import com.jarfans.solo.project.based.on.jypfans.user.data.Team;
 import com.jarfans.solo.project.based.on.jypfans.util.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -29,17 +31,19 @@ public class Post extends BaseTimeEntity {
   @Column(name = "writer_id", nullable = false)
   private long writerId;
 
-  @Column(length = 50, nullable = false)
+  @Column(length = 50)
   private String title;
 
-  @Column(length = 300, nullable = false)
+  @Column(length = 255, nullable = false)
   private String content;
 
-//  @ManyToOne
-  private long category;
+  @ManyToOne
+  @JoinColumn(name = "category_id", nullable = false)
+  private Category category;
 
-  @Column(name = "artist_id", nullable = false)
-  private long artistId;
+  @ManyToOne
+  @JoinColumn(name = "team_id", nullable = false)
+  private Team team;
 
   public void update(String title, String content) {
     this.title = title;

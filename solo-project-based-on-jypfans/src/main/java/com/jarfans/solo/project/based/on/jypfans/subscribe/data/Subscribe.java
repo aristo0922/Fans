@@ -1,7 +1,7 @@
 package com.jarfans.solo.project.based.on.jypfans.subscribe.data;
 
 
-import com.jarfans.solo.project.based.on.jypfans.user.data.ArtistTeam;
+import com.jarfans.solo.project.based.on.jypfans.user.data.Team;
 import com.jarfans.solo.project.based.on.jypfans.user.data.User;
 import com.jarfans.solo.project.based.on.jypfans.util.BaseTimeEntity;
 import jakarta.persistence.CascadeType;
@@ -30,9 +30,9 @@ public class Subscribe extends BaseTimeEntity {
 
   @ManyToOne(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "fan_id")
-  private User user;
+  private User fan;
 
   @ManyToOne
   @JoinColumn(name = "team_id")
-  private ArtistTeam team;
+  private Team team;
 }

@@ -3,6 +3,8 @@ package com.jarfans.solo.project.based.on.jypfans.post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
 import com.jarfans.solo.project.based.on.jypfans.post.data.SavePostDTO;
+import com.jarfans.solo.project.based.on.jypfans.user.data.Team;
+import com.jarfans.solo.project.based.on.jypfans.user.data.TeamRepository;
 import com.jarfans.solo.project.based.on.jypfans.util.PostService;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,17 +17,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class FanPostService implements PostService {
 
   private final PostRepository postRepository;
+  private final TeamRepository teamRepository;
 
-  public FanPostService(PostRepository repository) {
-    this.postRepository = repository;
+  public FanPostService(PostRepository postRepository, TeamRepository teamRepository) {
+    this.postRepository = postRepository;
+    this.teamRepository = teamRepository;
   }
 
   public void save(SavePostDTO request) {
+    Team team = teamRepository.findById(request.getArtistId()).get();
     Post post = Post.builder()
         .title(request.getTitle())
         .content(request.getContent())
         .writerId(request.getWriter())
-        .artistId(request.getArtistId())
+        .team(team)
         .build();
     postRepository.save(post);
   }

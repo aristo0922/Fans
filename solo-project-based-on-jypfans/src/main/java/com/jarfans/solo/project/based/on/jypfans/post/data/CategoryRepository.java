@@ -2,6 +2,6 @@ package com.jarfans.solo.project.based.on.jypfans.post.data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
-  Post findByTitle(String title);
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+  Category findByCategory(String category);
 }

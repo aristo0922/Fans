@@ -1,7 +1,10 @@
-package com.jarfans.solo.project.based.on.jypfans.post.data;
+package com.jarfans.solo.project.based.on.jypfans.subscribe.data;
+
 
 import com.jarfans.solo.project.based.on.jypfans.user.data.Team;
+import com.jarfans.solo.project.based.on.jypfans.user.data.User;
 import com.jarfans.solo.project.based.on.jypfans.util.BaseTimeEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,41 +15,24 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Builder
-@Getter
-@RequiredArgsConstructor
 @AllArgsConstructor
-@Table(name = "post")
+@RequiredArgsConstructor
+@Table(name = "subscribe")
 @Entity
-public class Post extends BaseTimeEntity {
-
+public class Subscribe extends BaseTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false, unique = true)
   private long id;
 
-  @Column(name = "writer_id", nullable = false)
-  private long writerId;
-
-  @Column(length = 50)
-  private String title;
-
-  @Column(length = 255, nullable = false)
-  private String content;
+  @ManyToOne(cascade = CascadeType.REMOVE)
+  @JoinColumn(name = "fan_id")
+  private User fan;
 
   @ManyToOne
-  @JoinColumn(name = "category_id", nullable = false)
-  private Category category;
-
-  @ManyToOne
-  @JoinColumn(name = "team_id", nullable = false)
+  @JoinColumn(name = "team_id")
   private Team team;
-
-  public void update(String title, String content) {
-    this.title = title;
-    this.content = content;
-  }
 }

@@ -14,5 +14,6 @@ public class SavePostDTO {
   private String title;
   private String content;
   private long writer;
-  private long artistId;
+  private long groupId;
+  private String category;
 }

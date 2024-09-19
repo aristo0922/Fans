@@ -1,5 +1,7 @@
 package com.jarfans.solo.project.based.on.jypfans.post;
 
+import com.jarfans.solo.project.based.on.jypfans.post.data.Category;
+import com.jarfans.solo.project.based.on.jypfans.post.data.CategoryRepository;
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
 import com.jarfans.solo.project.based.on.jypfans.post.data.SavePostDTO;
@@ -18,19 +20,23 @@ public class FanPostService implements PostService {
 
   private final PostRepository postRepository;
   private final TeamRepository teamRepository;
+  private final CategoryRepository categoryRepository;
 
-  public FanPostService(PostRepository postRepository, TeamRepository teamRepository) {
+  public FanPostService(PostRepository postRepository, TeamRepository teamRepository, CategoryRepository categoryRepository) {
     this.postRepository = postRepository;
     this.teamRepository = teamRepository;
+    this.categoryRepository = categoryRepository;
   }
 
   public void save(SavePostDTO request) {
-    Team team = teamRepository.findById(request.getArtistId()).get();
+    Team team = teamRepository.findById(request.getGroupId()).get();
+    Category category = categoryRepository.findByCategory(request.getCategory());
     Post post = Post.builder()
         .title(request.getTitle())
         .content(request.getContent())
         .writerId(request.getWriter())
         .team(team)
+        .category(category)
         .build();
     postRepository.save(post);
   }

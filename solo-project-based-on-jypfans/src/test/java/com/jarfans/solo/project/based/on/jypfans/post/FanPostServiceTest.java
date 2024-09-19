@@ -2,6 +2,8 @@ package com.jarfans.solo.project.based.on.jypfans.post;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.jarfans.solo.project.based.on.jypfans.post.data.Category;
+import com.jarfans.solo.project.based.on.jypfans.post.data.CategoryRepository;
 import com.jarfans.solo.project.based.on.jypfans.post.data.Post;
 import com.jarfans.solo.project.based.on.jypfans.post.data.PostRepository;
 import com.jarfans.solo.project.based.on.jypfans.post.data.SavePostDTO;
@@ -28,14 +30,18 @@ class FanPostServiceTest {
   TeamRepository teamRepository;
 
   @Autowired
+  CategoryRepository categoryRepository;
+
+  @Autowired
   FanPostService fanPostService;
   Post post, invalidPost;
   SavePostDTO savePostDTO, invalidPostDTO;
 
   @BeforeEach
   public void beforeEach() {
-    fanPostService = new FanPostService(postRepository, teamRepository);
+    fanPostService = new FanPostService(postRepository, teamRepository, categoryRepository);
     Team team = teamRepository.findById(1L).get();
+    String category = "ARTIST";
 
     post = Post.builder()
         .title("XH")
@@ -48,13 +54,15 @@ class FanPostServiceTest {
         .title("[v6.4] Xdinary heroes, close beta test.")
         .content("is completed! instead! is published")
         .writer(1)
-        .artistId(1).build();
+        .category(category)
+        .groupId(1).build();
 
     invalidPostDTO = SavePostDTO.builder()
         .title("")
         .content("is completed! instead! is published")
         .writer(1)
-        .artistId(1).build();
+        .category(category)
+        .groupId(1).build();
 
     invalidPost = Post.builder()
         .id(-1)
@@ -80,21 +88,21 @@ class FanPostServiceTest {
 
   @Test
   public void 단일_게시글_조회() {
-    long id = 2L;
+    long id = 1L;
     Post post = fanPostService.getPostEntity(id);
     Assertions.assertThat(post.getId()).isEqualTo(id);
   }
 
   @Test
   public void 게시글_수정() {
-    long id = 2L;
+    long id = 1L;
 
     SavePostDTO updated = SavePostDTO.builder()
         .id(id)
         .title("[v6.3] XH Consert")
         .content("is this weekend")
         .writer(1)
-        .artistId(1)
+        .groupId(1)
         .build();
 
     fanPostService.update(updated);

@@ -6,14 +6,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @Builder
 @Getter
@@ -28,17 +26,23 @@ public class Post extends BaseTimeEntity {
   @Column(name = "id", nullable = false, unique = true)
   private long id;
 
-  @Column(name = "team_id", nullable = false)
-  private long teamId;
-  @Column(name = "fan_id", nullable = false)
-  private long fanId;
-  @Column(length = 100, nullable = false)
-  private String subject;
-  @Column(length = 500, nullable = false)
+  @Column(name = "writer_id", nullable = false)
+  private long writerId;
+
+  @Column(length = 50, nullable = false)
+  private String title;
+
+  @Column(length = 300, nullable = false)
   private String content;
 
+//  @ManyToOne
+  private long category;
+
+  @Column(name = "artist_id", nullable = false)
+  private long artistId;
+
   public void update(String subject, String content) {
-    this.subject = subject;
+    this.title = subject;
     this.content = content;
   }
 }

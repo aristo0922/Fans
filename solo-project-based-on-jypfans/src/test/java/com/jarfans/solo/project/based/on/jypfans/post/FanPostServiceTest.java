@@ -31,10 +31,10 @@ class FanPostServiceTest {
   public void beforeEach() {
     fanPostService = new FanPostService(postRepository);
     post = Post.builder()
-        .subject("XH")
+        .title("XH")
         .content("hello XH")
-        .teamId(1)
-        .fanId(1)
+        .artistId(1)
+        .writerId(1)
         .build();
 
     savePostDTO = SavePostDTO.builder()
@@ -51,7 +51,7 @@ class FanPostServiceTest {
 
     invalidPost = Post.builder()
         .id(-1)
-        .subject("XH")
+        .title("XH")
         .content("hello XH")
         .build();
   }
@@ -62,7 +62,7 @@ class FanPostServiceTest {
     Post result = postRepository.findBySubject(savePostDTO.getSubject());
     long id = result.getId();
     assertTrue(postRepository.findById(id).isPresent());
-    Assertions.assertThat(savePostDTO.getSubject()).isEqualTo(result.getSubject());
+    Assertions.assertThat(savePostDTO.getSubject()).isEqualTo(result.getTitle());
   }
 
   @Test
@@ -92,7 +92,7 @@ class FanPostServiceTest {
 
     fanPostService.update(updated);
     Post saved = postRepository.findById(id).get();
-    Assertions.assertThat(saved.getSubject()).isEqualTo(updated.getSubject());
+    Assertions.assertThat(saved.getTitle()).isEqualTo(updated.getSubject());
   }
 
 

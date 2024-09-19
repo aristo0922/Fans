@@ -1,4 +1,4 @@
-package com.jarfans.solo.project.based.on.jypfans.comment.data;
+package com.jarfans.solo.project.based.on.jypfans.user.data;
 
 import com.jarfans.solo.project.based.on.jypfans.util.BaseTimeEntity;
 import jakarta.persistence.Column;
@@ -7,35 +7,33 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Builder
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
-@Table(name = "comment")
+@Table(name="user")
 @Entity
-public class Comment extends BaseTimeEntity {
-
+public class User extends BaseTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", nullable = false)
-  private Long id;
+  @Column(name= " id", nullable = false, unique = true)
+  private long id;
 
-  @Column(name = "writer_id", nullable = false)
-  private Long writerId;
+  private String userId;
 
-  @Column(name = "post_id", nullable = false)
-  private Long postId;
+  private long team;
 
-  @Column(name = "parent_commnt")
-  private Long parentComment;
+  private String password;
+  private String name;
+  private String nickName;
+  private long type;
+  private LocalDateTime birthDay;
 
-  @Column(length = 500, nullable = false)
-  private Long content;
+
 }
-
-

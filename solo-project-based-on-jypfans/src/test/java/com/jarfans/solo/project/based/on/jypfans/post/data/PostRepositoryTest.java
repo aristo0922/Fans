@@ -1,7 +1,5 @@
 package com.jarfans.solo.project.based.on.jypfans.post.data;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +14,7 @@ class PostRepositoryTest {
   @Test
   public void InsertPost(){
     Post post =  Post.builder()
-        .subject("XH123")
+        .title("XH123")
         .content("angel").build();
     postRepository.save(post);
   }
